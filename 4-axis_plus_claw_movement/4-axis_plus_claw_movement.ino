@@ -1,4 +1,4 @@
-// Include the AccelStepper Library
+// Include the AccelStepper Library (https://www.pjrc.com/teensy/td_libs_AccelStepper.html)
 #include <AccelStepper.h>
 
 // Define pin connections
@@ -34,19 +34,41 @@ AccelStepper m3(motorInterfaceType, stepPin3, dirPin3);
 AccelStepper claw(motorInterfaceType, stepPinC, dirPinC);
 
 void setup() {
-	// set the maximum speed, acceleration factor,
-	// initial speed and the target position
+
+  //unable to find specific from 28bjy-48 datasheet
 	base.setMaxSpeed(1000);
 	base.setAcceleration(50);
-	myStepper.setSpeed(200);
-	myStepper.moveTo(200);
+	base.setSpeed(200);
+
+  m1.setMaxSpeed(1000);
+	m1.setAcceleration(50);
+	m1.setSpeed(200);
+
+  m2.setMaxSpeed(1000);
+	m2.setAcceleration(50);
+	m2.setSpeed(200);
+
+  m3.setMaxSpeed(1000);
+	m3.setAcceleration(50);
+	m3.setSpeed(200);
+
+  claw.setMaxSpeed(1000);
+	claw.setAcceleration(50);
+	claw.setSpeed(200);
+	
 }
 
 void loop() {
-	// Change direction once the motor reaches target position
-	if (myStepper.distanceToGo() == 0) 
-		myStepper.moveTo(-myStepper.currentPosition());
+	base(1024);
+}
 
-	// Move the motor one step
-	myStepper.run();
+void base(int destination){
+  base.moveTo(destination);
+	if(destination - base.currentPosition() > 0){
+		base.move(1);
+  }
+  else if(destination - base.currentPosition() < 0){
+    base.move(1);
+  }
+	base.run();
 }

@@ -41,11 +41,11 @@ void setup() {
 	base.setSpeed(100);
 
   m1.setMaxSpeed(1000);
-	m1.setAcceleration(50);
+	m1.setAcceleration(25);
 	m1.setSpeed(200);
 
   m2.setMaxSpeed(1000);
-	m2.setAcceleration(50);
+	m2.setAcceleration(25);
 	m2.setSpeed(200);
 
   m3.setMaxSpeed(1000);
@@ -60,9 +60,9 @@ void setup() {
   m1.setCurrentPosition(0);
   m2.setCurrentPosition(0);
 
-  base.moveTo(500);
-  //m1.moveTo(500);
-  //m2.moveTo(500);
+  base.moveTo(200);
+  m1.moveTo(350);
+  m2.moveTo(350);
 
   Serial.begin(9600);
 }
@@ -74,15 +74,15 @@ void loop() {
     runMotors();
   }
 
-  // if(m1.distanceToGo() == 0){
-  //   m1.moveTo(0);
-  //   runMotors();
-  // }
+  if(m1.distanceToGo() == 0){
+    m1.moveTo(-m1.currentPosition());
+    runMotors();
+  }
 
-  // if(m2.distanceToGo() == 0){
-  //   m2.moveTo(-m2.currentPosition());
-  //   runMotors();
-  // }
+  if(m2.distanceToGo() == 0){
+    m2.moveTo(-m2.currentPosition());
+    runMotors();
+  }
   
   runMotors();
   

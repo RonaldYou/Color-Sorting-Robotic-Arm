@@ -1,4 +1,4 @@
-// Include the AccelStepper Library (https://www.pjrc.com/teensy/td_libs_AccelStepper.html)
+// Include the AccelStepper Library (https://www.airspayce.com/mikem/arduino/AccelStepper/classAccelStepper.html)
 #include <AccelStepper.h>
 
 // Define pin connections
@@ -38,7 +38,7 @@ void setup() {
   //unable to find specific from 28bjy-48 datasheet
 	base.setMaxSpeed(1000);
 	base.setAcceleration(50);
-	base.setSpeed(200);
+	base.setSpeed(100);
 
   m1.setMaxSpeed(1000);
 	m1.setAcceleration(50);
@@ -56,19 +56,41 @@ void setup() {
 	claw.setAcceleration(50);
 	claw.setSpeed(200);
 	
+  base.setCurrentPosition(0);
+  m1.setCurrentPosition(0);
+  m2.setCurrentPosition(0);
+
+  base.moveTo(500);
+  //m1.moveTo(500);
+  //m2.moveTo(500);
+
+  Serial.begin(9600);
 }
 
 void loop() {
-	base(1024);
+  
+  if(base.distanceToGo() == 0){
+    base.moveTo(-base.currentPosition());
+    runMotors();
+  }
+
+  // if(m1.distanceToGo() == 0){
+  //   m1.moveTo(0);
+  //   runMotors();
+  // }
+
+  // if(m2.distanceToGo() == 0){
+  //   m2.moveTo(-m2.currentPosition());
+  //   runMotors();
+  // }
+  
+  runMotors();
+  
+  
 }
 
-void base(int destination){
-  base.moveTo(destination);
-	if(destination - base.currentPosition() > 0){
-		base.move(1);
-  }
-  else if(destination - base.currentPosition() < 0){
-    base.move(1);
-  }
-	base.run();
+void runMotors(){
+  base.run();
+  m1.run();
+  m2.run();
 }

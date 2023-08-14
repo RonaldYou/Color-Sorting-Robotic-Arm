@@ -60,9 +60,9 @@ void setup() {
   m1.setCurrentPosition(0);
   m2.setCurrentPosition(0);
 
-  base.moveTo(200);
-  m1.moveTo(350);
-  m2.moveTo(350);
+  base.moveTo(1000);
+  m1.moveTo(200);
+  //m2.moveTo(350);
 
   Serial.begin(9600);
 }
@@ -79,10 +79,10 @@ void loop() {
     runMotors();
   }
 
-  if(m2.distanceToGo() == 0){
-    m2.moveTo(-m2.currentPosition());
-    runMotors();
-  }
+  // if(m2.distanceToGo() == 0){
+  //   m2.moveTo(-m2.currentPosition());
+  //   runMotors();
+  // }
   
   runMotors();
   

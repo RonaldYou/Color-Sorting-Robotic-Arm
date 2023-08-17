@@ -43,37 +43,25 @@ int phase = 0;
 void setup() {
 
   //unable to find specific from 28bjy-48 datasheet
-	base.setMaxSpeed(1000);
-	base.setAcceleration(50);
-	base.setSpeed(100);
 
   m1p1.setMaxSpeed(1000);
 	m1p1.setAcceleration(150);
-	m1p1.setSpeed(250);
+	m1p1.setSpeed(100);
 
   m1p2.setMaxSpeed(1000);
 	m1p2.setAcceleration(150);
-	m1p2.setSpeed(250);
+	m1p2.setSpeed(100);
 
-  m2.setMaxSpeed(1000);
-	m2.setAcceleration(25);
-	m2.setSpeed(200);
-
-  m3.setMaxSpeed(1000);
-	m3.setAcceleration(50);
-	m3.setSpeed(200);
 	
-  clawServo.write(0);
-  clawServo.attach(13);
 
   //base1.setCurrentPosition(0);
   m1p1.setCurrentPosition(0);
   m1p2.setCurrentPosition(0);
-  m2.setCurrentPosition(0);
+  //m2.setCurrentPosition(0);
 
   //base1.moveTo(1000);
-  // m1p1.moveTo(-950);
-  // m1p2.moveTo(950);
+  m1p1.moveTo(-1650);
+  m1p2.moveTo(1650);
   // m2.moveTo(350);
 
   Serial.begin(9600);
@@ -81,46 +69,34 @@ void setup() {
 
 void loop() {
   
-  // if(base1.distanceToGo() == 0){
-  //   base1.moveTo(-base1.currentPosition());
-  //   runMotors();
-  // }
-
-  // if(m1p1.distanceToGo() == 0){
-  //   m1p1.moveTo(-m1p1.currentPosition());
-  //   runMotors();
-  // }
-
-  // if(m1p2.distanceToGo() == 0){
-  //   m1p2.moveTo(-m1p2.currentPosition());
-  //   runMotors();
-  // }
-
-  // if(m2.distanceToGo() == 0){
-  //   m2.moveTo(-m2.currentPosition());
-  //   runMotors();
-  // }
-  if(phase == 0){
-    m1p1.moveTo(-1900);
-    m1p2.moveTo(1900);
-    //m2.moveTo(350);
-    if(m1p1.distanceToGo() == 0){
-      phase = 1;
-      for (pos = 0; pos <= 92; pos += 1) { // goes from 0 degrees to 180 degrees
-        // in steps of 1 degree
-        clawServo.write(pos);              // tell servo to go to position in variable 'pos'
-        delay(15);                       // waits 15ms for the servo to reach the position
-      }
-    }
+  if(m1p1.distanceToGo() == 0){
+    m1p1.moveTo(-m1p1.currentPosition());
     runMotors();
   }
-  else{
-    clawServo.write(pos);              // tell servo to go to position in variable 'pos'
-    m1p1.moveTo(0);
-    m1p2.moveTo(0);
-    //m2.moveTo(0);
+
+  if(m1p2.distanceToGo() == 0){
+    m1p2.moveTo(-m1p2.currentPosition());
     runMotors();
   }
+
+  runMotors();
+
+  // if(phase == 0){
+  //   m1p1.moveTo(-950);
+  //   runMotors();
+  //   m1p2.moveTo(950);
+  //   runMotors();
+  //   if(m1p1.distanceToGo() == 0){
+  //     phase = 1;
+  //   }
+    
+  // }
+  // else{           
+  //   m1p1.moveTo(0);
+  //   runMotors();
+  //   m1p2.moveTo(0);
+  //   runMotors();
+  // }
 }
 
 void runMotors(){

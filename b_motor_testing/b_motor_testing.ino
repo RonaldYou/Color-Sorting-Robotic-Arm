@@ -41,49 +41,31 @@ int phase = 0;
 
 
 void setup() {
-
   //unable to find specific from 28bjy-48 datasheet
+  base.setMaxSpeed(1000);
+	base.setAcceleration(25);
+	base.setSpeed(100);
 
-  m1p1.setMaxSpeed(1000);
-	m1p1.setAcceleration(50);
-	m1p1.setSpeed(100);
-
-  m1p2.setMaxSpeed(1000);
-	m1p2.setAcceleration(50);
-	m1p2.setSpeed(100);
-
-	
-
-  //base1.setCurrentPosition(0);
-  m1p1.setCurrentPosition(0);
-  m1p2.setCurrentPosition(0);
-  //m2.setCurrentPosition(0);
-
+  base.setCurrentPosition(0);
 
   Serial.begin(9600);
 }
 
 void loop() {
-
   if(phase == 0){
-    m1p1.moveTo(-1650);
+    base.moveTo(1500);
     runMotors();
-    m1p2.moveTo(1650);
-    runMotors();
-    if(m1p1.distanceToGo() == 0){
+    if(base.distanceToGo() == 0){
       phase = 1;
     }
     
   }
   else{           
-    m1p1.moveTo(0);
-    runMotors();
-    m1p2.moveTo(0);
+    base.moveTo(0);
     runMotors();
   }
 }
 
 void runMotors(){
-  m1p1.run();
-  m1p2.run();
+  base.run();
 }

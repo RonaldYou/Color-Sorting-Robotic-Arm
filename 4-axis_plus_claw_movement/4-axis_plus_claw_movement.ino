@@ -87,15 +87,19 @@ void loop() {
         clawServo.write(pos);              // tell servo to go to position in variable 'pos'
         delay(15);                       // waits 15ms for the servo to reach the position
       }
+      delay(500);
     }
     runMotors();
   }
   else if(phase == 1){
     clawServo.write(pos);             
-    m1p1.moveTo(-1350);
-    m1p2.moveTo(1350);
-    base.moveTo(500);
-    if(m1p1.distanceToGo() == 0 && base.distanceToGo() = 0){
+    m1p1.moveTo(-1150);
+    m1p2.moveTo(1150);
+    if(m1p1.distanceToGo() <= 150){
+      base.moveTo(500);
+    }
+    
+    if(m1p1.distanceToGo() == 0 && base.distanceToGo() == 0){
       phase = 2;
     }
     runMotors();
@@ -106,14 +110,28 @@ void loop() {
     m1p2.moveTo(1650);
     if(m1p1.distanceToGo() == 0 && m1p2.distanceToGo() == 0){
       phase = 3;
-      for (pos = 92; pos => 0; pos--) { // goes from 0 degrees to 180 degrees
+      for (pos = 92; pos >= 0; pos--) { // goes from 0 degrees to 180 degrees
         clawServo.write(pos);              // tell servo to go to position in variable 'pos'
         delay(15);                       // waits 15ms for the servo to reach the position
       }
     }
     runMotors();
   }
-
+  else if(phase == 3){
+    m1p1.moveTo(0);
+    m1p2.moveTo(0);
+    if(m1p1.distanceToGo() == 0){
+      phase = 4;
+    }
+    runMotors();
+  }
+  else{
+    m2.moveTo(0);
+    if(m2.distanceToGo() <= 600){
+      m3.moveTo(0);
+    }
+    runMotors();
+  }
 }
 
 void runMotors(){

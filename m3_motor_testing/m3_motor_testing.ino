@@ -46,6 +46,7 @@ void setup() {
 	m3.setAcceleration(50);
 	m3.setSpeed(100);
 
+
   m3.setCurrentPosition(0);
 
   Serial.begin(9600);

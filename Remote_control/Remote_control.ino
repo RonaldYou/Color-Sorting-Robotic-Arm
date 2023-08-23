@@ -42,10 +42,29 @@ int latestCommand = 10000;
 
 
 void setup() {
+  base.setMaxSpeed(1000);
+	base.setAcceleration(50);
+	base.setSpeed(100);
+
+  m1p1.setMaxSpeed(1000);
+	m1p1.setAcceleration(40);
+	m1p1.setSpeed(75);
+
+  m1p2.setMaxSpeed(1000);
+	m1p2.setAcceleration(40);
+	m1p2.setSpeed(75);
+
+  m2.setMaxSpeed(1000);
+	m2.setAcceleration(50);
+	m2.setSpeed(75);
+
   m3.setMaxSpeed(1000);
 	m3.setAcceleration(100);
 	m3.setSpeed(100);
 
+  m1p1.setCurrentPosition(0);
+  m1p2.setCurrentPosition(0);
+  m2.setCurrentPosition(0);
   m3.setCurrentPosition(0);
 
   Serial.begin(9600);
@@ -55,15 +74,40 @@ void loop() {
   if (IrReceiver.decode()) {
     Serial.println(IrReceiver.decodedIRData.command);
     latestCommand = IrReceiver.decodedIRData.command;
-    if(latestCommand == 94){ //button #3
-      m3.move(50);
+    switch (latestCommand){
+      case 94: m3.move(50); m3.run(); break;//button #3
+      case 90: m3.move(-50); m3.run(); break;//button #6
+      case 24: m2.move(50); m2.run(); break;//button #2
+      case 28: m2.move(-50); m2.run(); break;//button #5
+      case 12: m1p1.move(-50); m1p2.move(50); m1p1.run(); m1p2.run(); break; //button #1
+      case 8:  m1p1.move(50); m1p2.move(-50); m1p1.run(); m1p2.run(); break; //button #4
+      case 7:  base.move(50); base.run(); break; //button skip backward
+      case 9:  base.move(-50); base.run(); break; //button skip foward
+      case 64:
+        //close claw
+        for (pos = 0; pos <= 92; pos += 1) { 
+          clawServo.write(pos);              
+          delay(15);                       
+        }
+      case 25:
+        //open claw
+        for (pos = 0; pos <= 92; pos += 1) { 
+          clawServo.write(pos);              
+          delay(15);                       
+        }
       
     }
-    m3.run();
-    if(latestCommand == 90){ //button #6
-      m3.move(-50);
-    }
+
     IrReceiver.resume();
   }
+  clawServo.write(pos);
+  runMotors();
+}
+
+void runMotors(){
+  base.run();
+  m1p1.run();
+  m1p2.run();
+  m2.run();
   m3.run();
 }

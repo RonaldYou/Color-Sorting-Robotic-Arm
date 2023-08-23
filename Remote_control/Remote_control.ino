@@ -62,6 +62,9 @@ void setup() {
 	m3.setAcceleration(100);
 	m3.setSpeed(100);
 
+  clawServo.write(0);
+  clawServo.attach(13);
+
   m1p1.setCurrentPosition(0);
   m1p2.setCurrentPosition(0);
   m2.setCurrentPosition(0);
@@ -83,24 +86,26 @@ void loop() {
       case 8:  m1p1.move(50); m1p2.move(-50); m1p1.run(); m1p2.run(); break; //button #4
       case 7:  base.move(50); base.run(); break; //button skip backward
       case 9:  base.move(-50); base.run(); break; //button skip foward
-      case 64:
+      case 64: // button + sign
         //close claw
-        for (pos = 0; pos <= 92; pos += 1) { 
+        for (pos = 0; pos <= 92; pos += 1) { //we dont need to do this, we can tell it go to end position but it moves really fast
           clawServo.write(pos);              
           delay(15);                       
         }
-      case 25:
+        break;
+      case 25: //button -sign
         //open claw
-        for (pos = 0; pos <= 92; pos += 1) { 
+        for (pos = 92; pos >= 0; pos -= 1) { 
           clawServo.write(pos);              
           delay(15);                       
         }
+        break;
       
     }
 
     IrReceiver.resume();
   }
-  clawServo.write(pos);
+  // clawServo.write(pos);
   runMotors();
 }
 

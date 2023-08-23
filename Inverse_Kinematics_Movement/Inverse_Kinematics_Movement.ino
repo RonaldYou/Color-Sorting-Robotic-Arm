@@ -91,7 +91,7 @@ int angleToSteps(int angle) {
   return 17 * angle;
 }
 
-float angleAlpha (int x, int y, float beta){
+float angleAlpha (float x, float y, float beta){
   //arctan(y/x) - arctan((d1*sin(beta))/(d1+d2*cos(beta)));
   //first term
   double term1 = atan(y/x);

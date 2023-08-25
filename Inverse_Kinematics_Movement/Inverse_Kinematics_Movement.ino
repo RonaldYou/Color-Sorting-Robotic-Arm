@@ -143,14 +143,19 @@ void loop() {
     }
     runMotors();
   }
-  else{
+  else if(phase == 5){
     m2.moveTo(0);
     if(m2.distanceToGo() <= 600){
       m3.moveTo(0);
     }
+    if(base.distanceToGo() == 0 && m1p1.distanceToGo() == 0 && m1p2.distanceToGo() == 0 && m2.distanceToGo() == 0){
+      phase = 6;
+    }
     runMotors();
   }
-  remoteControl();
+  else{
+    remoteControl();
+  }
   runMotors();
 }
 
@@ -185,7 +190,7 @@ int angleToStepsM3(int angle){
 }
 
 float angleAlpha (float x, float y, float beta){
-  //arctan(y/x) - arctan((d1*sin(beta))/(d1+d2*cos(beta)));
+  //arctan(x/y) - arctan((d1*sin(beta))/(d1+d2*cos(beta)));
   //first term
   double term1 = atan(x/y);
   //numerator of second term
@@ -196,7 +201,7 @@ float angleAlpha (float x, float y, float beta){
   double term2 = atan(numerator/denominator);
   double preciseAlpha = term1 - term2;
   if(preciseAlpha < 0){
-    preciseAlpha *=-1;
+    preciseAlpha  = 3.14156 + preciseAlpha;
   }
   return (float)preciseAlpha;
 }

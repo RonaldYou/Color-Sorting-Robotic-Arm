@@ -75,8 +75,8 @@ void setup() {
   m2.setSpeed(50);
 
   m3.setMaxSpeed(1000);
-  m3.setAcceleration(25);
-  m3.setSpeed(90);
+  m3.setAcceleration(55);
+  m3.setSpeed(100);
 
   clawServo.write(0);
   clawServo.attach(13);
@@ -110,18 +110,18 @@ void loop() {
     rotateTo(15,0);
     clawServo.write(pos); 
     if(base.distanceToGo() == 0 && m1p1.distanceToGo() == 0 && m1p2.distanceToGo() == 0 && m2.distanceToGo() == 0){
-      phase = 2;
-    }
-    runMotors();
-  }
-  else if(phase == 2){
-    base.moveTo(1500);
-    clawServo.write(pos); 
-    if(base.distanceToGo() == 0 && m1p1.distanceToGo() == 0 && m1p2.distanceToGo() == 0 && m2.distanceToGo() == 0){
       phase = 3;
     }
     runMotors();
   }
+  // else if(phase == 2){
+  //   base.moveTo(1500);
+  //   clawServo.write(pos); 
+  //   if(base.distanceToGo() == 0 && m1p1.distanceToGo() == 0 && m1p2.distanceToGo() == 0 && m2.distanceToGo() == 0){
+  //     phase = 3;
+  //   }
+  //   runMotors();
+  // }
   else if(phase == 3){
     rotateTo(12,-10);
     clawServo.write(pos); 
@@ -169,7 +169,7 @@ void rotateTo(int x, int y){
   Serial.println(radiansToDegrees(angleTheta(angleAlpha(x,y,angleBeta(x,y)), angleBeta(x,y))));
   
   m1Move(angleToSteps(alpha));
-  m3.moveTo(angleToStepsM3(theta-6));
+  m3.moveTo(angleToStepsM3(theta-5));
   m2.moveTo(angleToSteps(beta));
   
   runMotors();
@@ -200,6 +200,8 @@ float angleAlpha (float x, float y, float beta){
   //second term
   double term2 = atan(numerator/denominator);
   double preciseAlpha = term1 - term2;
+
+  //180 - (angle) for quadrant 4
   if(preciseAlpha < 0){
     preciseAlpha  = 3.14156 + preciseAlpha;
   }
